@@ -1,0 +1,13 @@
+---
+- hosts: webserver
+  remote_user: centos
+  become: yes
+  become_method: sudo
+  vars:
+    BUILD_ID: "{{ build_id }}"
+  tasks:
+    - name: Pull docker image
+      shell: docker pull gupta220/spring-petclinicdemo:{{ BUILD_ID }}
+
+    - name: Run spring-petclinicdemo docker image
+      shell: docker run -d -p 8081:8080 --name=spring-petclinicdemo gupta220/spring-petclinicdemo:{{ BUILD_ID }}
